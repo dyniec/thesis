@@ -1,0 +1,73 @@
+% Opcje klasy 'iithesis' opisane sa w komentarzach w pliku klasy. Za ich pomoca
+% ustawia sie przede wszystkim jezyk i rodzaj (lic/inz/mgr) pracy, oraz czy na
+% drugiej stronie pracy ma byc skladany wzor oswiadczenia o autorskim wykonaniu.
+\documentclass[declaration,shortabstract,polish,lic]{iithesis}
+\let\lll\relax
+\usepackage{mathabx}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage[toc]{appendix}
+\usepackage{bookmark}
+\usepackage{enumerate}
+\usepackage{csvsimple}
+\usepackage{float}
+
+\usepackage{pdfpages}
+
+\usepackage{color}
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\usepackage{listings}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[CO,CE]{\thepage}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+\renewcommand{\chaptermark}[1]{\markboth{Paweł Dybiec, Instytut Informatyki UWr}{}}
+\renewcommand{\sectionmark}[1]{\markright{Weryfikacja możliwości sterowania łazikiem za pomocą sieci neuronowych}}
+
+\polishtitle{Weryfikacja możliwości sterowania łazikiem za pomocą sieci neuronowych}
+\englishtitle{TODO}
+
+\author{Paweł Dybiec}
+\advisor{dr Jan Chorowski}
+\date{TODO} % Data zlozenia pracy
+\transcriptnum{271900} % Numer indeksu
+\advisorgen{dr Jana Chorowskiego} % Nazwisko promotora w dopelniaczu
+
+\input{abstracts}
+
+\begin{document}
+TODO: Zmienić kierunek na isim
+\input{Chapters/chapter1}
+\input{Chapters/chapter2}
+\input{Chapters/chapter3}
+\input{Chapters/chapter4}
+
+\begin{thebibliography}{1}
+\input{bibitems}
+\end{thebibliography}
+\renewcommand\appendixtocname{Dodatki}
+\bookmarksetupnext{level=part}
+\begin{appendices}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+\makeatletter
+\addtocontents{toc}{
+  \begingroup
+  \let\protect\l@chapter\protect\l@section
+  \let\protect\l@section\protect\l@subsection
+}
+\makeatother
+  \input{Appendices/appendixA}
+\addtocontents{toc}{\endgroup}
+\end{appendices}
+
+\end{document}
