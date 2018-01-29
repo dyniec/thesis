@@ -21,11 +21,31 @@ w tym rozdziale poruszone będą:
 
 
 \section{ROS}
-Nakładka na ubuntu
-\subsection{Master}
+Ros to otwarty system operacyjny przeznaczony dla robotów.
+Dostarcza abstrakcję nad sprzętem oraz środki komunikacji między procesami.
+Ze względu na modułową budowę oraz architekturę peer-to-peer procesy mogą
+bezproblemowo działać na różnych komputerach.
 \subsection{Node}
-\subsection{Gotowe moduły}
-tf,kamery,konwersje obrazków/strumieni
+Podstawową jednostką w ROSie jest wierzchołek(node), jego głównym zdaniem jest
+wykonywanie obliczeń. Wierzchołki razem tworzą graf, a komunikują się za 
+pomocą tematów(topic).
+
+Taka architektura (inspirowana budową mikrojądra) zapewnia lepsza ochronę na błędy
+w porównaniu do architektury monolitycznej. Dodatkowo pojedyńczy element można
+bezproblemowo przepisać, i to w innym języku.
+\subsection{Topic}
+Tematy(topic) pozwalają bezproblemowo zapewnić komunikację międzyprocesową
+w ROSie. Każdy node może zadelkarować chęć nadawania bądź nasłuchiwania na
+danym temacie. Przykładowo moduł jazdy autonomicznej może zasubskrybować
+obraz z kamery Kinect, a publikować na temacie reprezentującym kierunek ruchu.
+\subsection{Rosbag}
+Rosbagi służą do zapisywania wybranych topiców wraz ze znacznikami czasu.
+Niestety ten format wspiera tylko dostęp sekwencyjny przy odtwarzaniu, co wystarczy
+do symulowania łazika, ale nie zawsze to wystarczyło. Aby temu zaradzić dane były
+konwertowane do prostszego formatu.
+%\subsection{Gotowe moduły}
+%chyba nie aż tak ważne 
+%tf,kamery,konwersje obrazków/strumieni
 
 \section{Autonomia Aleph 1}
 Co zostało zrobione na przedmiocie:
