@@ -1,10 +1,35 @@
 \chapter{Sieć pod symulator}
-TODO: Rysunek sieci, obrazki aktywacji
+W celu autonomicznej jazdy wytrenowałem konwolucyjną sieć neuronową (CNN)
+przetwarzającą obraz z kamery bezpośrednio w porządaną prędkość liniową
+oraz obrotową. Takie podejście pozwala szybko zbierać dane uczące, wystarczy
+tylko nagrać obraz z kamery oraz prędkość nadaną przez kierowcę.
+\begin{figure}[h]
+  \centering
+  \fbox{
+  \scalebox{0.5}{\includegraphics*[viewport=0 1300 600 2200]{img/model.png}}
+  }
+\end{figure}
+\begin{figure}
+  \centering
+  \fbox{
+  \scalebox{0.5}{\includegraphics*[viewport=0 0000 600 1300]{img/model.png}}
+  }
+  \label{model}
+  \caption{Architektura sieci}
+\end{figure}
+Wersja sterująca w symulatorze powstała, żeby odrzucić modele, które nie radzą
+sobie w tak prostych warunkach. Dodatkowo zbieranie danych oraz testowanie
+modelu jest łatwiejsze, ponieważ nie wymaga przygotowywania sprzętu, oraz
+opuszczenie toru przez model jest nieszkodliwe w porównaniu do opuszczenia
+drogi przez fizycznego łazika.
 
 \section{Dlaczego taka (a nie mniejsza)}
-Dlaczego dropout
-
-Dlaczego nieliniowe
+W sieci pięciokrotnie pojawia się sekwencja warstwa konwolucyjna -> dropout 
+całych warstw ->max pooling.
+Celem poolingu jest zmniejszenie liczby parametrów oraz zapobieganie 
+przetrenowaniu. Max pooling dzieli obraz na bloki ustalonego rozmiaru i 
+dla każdego z nich wyznacza maksimum, w ten sposób rozmiar 'feature maps' 
+wielokrotnie się zmniejsza.
 
 Dlaczego tylko 1 dense
 
