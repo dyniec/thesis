@@ -1,18 +1,38 @@
-\chapter{Co dalej}
-Najprostszym następnym krokiem jest zwiększenie danych o dodatkowy wymiar, i nauczenie takiej
-sieci decyzji na podstawie $k$ (niekoniecznie) ostatnich zdjęć. Innym prostym rozwiązaniem,
-które można z tym połączyć jest zmiana perspektywy kamery na zdjęcie z góry.
+\chapter{Podsumowanie}
+Sieć neuronowa wykonana w ramach projektu działa na ten moment dość intuicyjnie, 
+co znaczy, że nie wykonuje żadnego planowania, decyzje podejmuje na bieżąco. 
+Jest w stanie pokonać prostą trasę, w której tylko jeden tor może zostać uznany 
+za prawidłowy. 
+\section{Możliwe usprawnienia}
+Aktualna sieć może nie być w stanie rozwiązać wszystkich problemów, w szczególności
+planowania trasy. Dlatego też warto rozważyć opisane poniżej podejścia.
 
-Bardziej ambitnym pomysłem jest wytrenowanie rekurencyjnej sieci neuronowej (RNN),
-gdyby ją dobrze nauczyć sama wyciągnie kontekst. Ale problemem przy jej trenowaniu
-będzie fakt, że prostą strategią dla takiej sieci jest powtarzanie ostatniego wypisanego
-wyniku, a to dlatego że prędkość jest ciągła.
+Najprostszym rozszerzeniem obecnej architektury może być wzięcie pod uwagę czasu -- 
+np. reagowanie na $k$ ostatnich obrazków. Dzięki temu rozwiązaniu sieć byłaby w 
+stanie wywnioskować aktualną prędkość, ale wciąż jej decyzje pozostałyby
+spontaniczne.
 
-Kolejnym rozwiązaniem jest reinforced learning, sieć karało by się za
-każdą interwencję lub wyjechanie poza trasę. Niestety problemem tutaj jest 
-fakt, że jak błąd prawdziwego pojazdu może być kosztowny lub niebezpieczny.
+Większym wyzwaniem byłoby wytrenowanie rekurencyjnej sieci neuronowej (RNN), zdolnej
+do przekazania samej sobie kontekstu. Trenowanie takiej sieci mogłoby się okazać 
+bardziej problematyczne. Prostą strategią dla takiej sieci jest powtarzanie 
+ostatniego wypisanego wyniku. Mogłoby to doprowadzić do sytuacji, w której  łazik
+wykonuje wciąż te same operacje, nie reagując na zmianę warunków.
 
-Oczywiście pozostają też rozwiązania nie używające sieci neuronowych, można
-przykładowo stworzyć program pilnujący aby łazik nie wjechał w przeszkodę.
+Kolejnym rozwiązaniem jest reinforced learning, które polega na wskazywaniu sieci
+sytuacji, w których sieć popełniła błąd. Przykładowo, za taką sytuację można uznać
+konieczność interwencji człowieka lub wyjechanie łazika poza trasę. 
+Niestety, modelu wytrenowanego na symulatorze nie da się przenieść bezpośrednio 
+na pojazd (np. ze względu na znaczną różnicę obrazu). Dlatego też omawiane rozwiązanie
+można trenować jedynie w rzeczywistości. Stwarza to niestety problemy -- 
+błąd prawdziwego pojazdu może być kosztowny lub niebezpieczny.
 
+Dodatkowo, każde ze wspomnianych rozwiązań można usprawinić poprzez zmianę 
+perspektywy kamery na ujęcie z góry.
+
+Oczywiście pozostają też rozwiązania nieużywające sieci neuronowych. Można
+na przykład stworzyć program, który korzystając z mapy otoczenia lub mapy głebokości
+z kamery nadzorowałby trasę łazika, zmniejszając ryzyko wjechania pojazdu w przeszkodę.
+
+Zaproponowane powyżej rozwiązania mogą zostać zastosowane w przyszłości, w ramach 
+dalszego rozwoju projektu.
 

@@ -1,26 +1,30 @@
 \chapter{Preliminaria}
-Ta praca została zrealizowana w ramach przedmiotu "Projekt: autonomiczna jazda łazikiem".
-Z jego powodu(trzeba zmienic to wyrazenie), powstało wiele rozwiązań dla zadań z 
+Ta praca 
+powstała w ramach przedmiotu "Projekt: autonomiczna jazda łazikiem".
+
+Podczas realizacji przedmiotu powstało wiele rozwiązań dla zadań z 
 "konkursów łazikowych".
 
 Żaden spośród łazików biorących udział w University Rover Challenge nie 
-używa sieci neuronowych bezpośrednio do nawigacji , ale prawie wszystkie używają
+używa sieci neuronowych bezpośrednio do nawigacji, ale prawie wszystkie używają
 ROS (Robot Operating System) jako podstawy całego oprogramowania. Z tego powodu
-w tym rozdziale poruszone będą:
+rozdziale zostaną poruszone poniższe zagadnienia:
 \begin{itemize}
   \item Łazik Aleph 1
-  \item Podstawy sieci neuronowych.
+  \item Podstawy sieci neuronowych
   \item Architektura ROS
 \end{itemize}
-\section {Łazik}
-Łazik Aleph 1 powstał z inicjatywy koła naukowego Continuum\footnote{ Strona koła naukowego Continuum:
+\section {Łazik Aleph 1}
+Łazik Aleph 1 powstał z inicjatywy 
+% Koło Pasjonatów Mechaniki i Informatyki "Continuum" (oficjalna nazwa?)
+Koło Pasjonatów Mechaniki i Informatyki "Continuum"\footnote{ Strona Koła Pasjonatów Mechaniki i Informatyki "Continuum":
 \href{http://continuum.uni.wroc.pl/}{http://continuum.uni.wroc.pl/}}
 w roku 2014. Od tego czasu został zaprezentowany na konkursach takich jak 
 European Rover Challenge (ERC) oraz University Rover Challenge (URC). Przez ostatnie
 dwa lata łazik był doceniany na konkursie URC (w roku 2016 zajął 3 miejsce, a w roku
 2017 -- 2 miejsce).
 
-Podczas konkursu URC pojazdy były ocenianie w czterech kategoriach\footnote{
+Podczas konkursu URC pojazdy były oceniane w czterech kategoriach\footnote{
 Regulamin konkursu URC: \href{http://urc.marssociety.org/home/requirements-guidelines}
 {http://urc.marssociety.org/home/requirements-guidelines}}:
 \begin{itemize}
@@ -40,7 +44,7 @@ Celem sieci jest przybliżenie funkcji $f^*$, przyporządkowującej argumentom $
 $y$, funkcją $f(x,\theta)=y$ oraz znalezienie parametru $\theta$, który da najlepsze
 przybliżenie.
 \subsection{Jak działają}
-Sieci neuronowe są zazwyczaj złożone z wielu różnych funkcji, nazywanych warstwami. Przykładowo
+Sieci neuronowe są zazwyczaj złożone z wielu różnych funkcji, nazywanych warstwami. Przykładowo,
 $f(x)=f^{(3)}(f^{(2)}(f^{(1)}(x)))$, wtedy $f^{(3)}$ jest wartwą wyjściową, której wyniki
 powinny odpowiadać funkcji $f^*$. Wyniki dla pozostałych warstw nie są znane, z tego
 powodu nazywa się je ukrytymi warstwami.
@@ -48,9 +52,10 @@ powodu nazywa się je ukrytymi warstwami.
 W wyniku trenowania chcemy znaleźć takie $\theta$, żeby $f^*(x)\approx f(x,\theta)$.
 W tym celu należy zdefiniować funkcję kosztu $L(\theta)$ tzn. odległości modelu 
 od celu, zależną od $\theta $,
-przykładowo dla regresji średni błąd kwadratowy dla danych uczących. Dla takiej
-funkcji chcielibyśmy teraz znaleźć minimum. Minimum globalne może być trudne
-do znalezienia, ale minima lokalne zazwyczaj są wystarczająco dobre.
+np. dla problemu regresji, $L$ to średni błąd kwadratowy dla danych uczących. 
+Dla takiej funkcji chcielibyśmy teraz znaleźć minimum. Minimum globalne może być trudne
+do znalezienia, ale minima lokalne zazwyczaj są wystarczające do większości zastosowań.
+
 
 Gdyby $L$ byłoby funkcją jednej zmiennej, wystarczyłoby zacząć w losowym miejscu i
 wielokrotnie wykonać następujący
@@ -58,7 +63,9 @@ krok $x=x-\epsilon L'(x)$, aby dotrzeć do minimum lokalnego. Dla funkcji
 wielu zmiennych podobny algorytm działa, ale pochodną należy zastąpić gradientem
 $x=x-\epsilon \nabla _x L(x)$.
 \subsection{Popularne warstwy}
-Warstwa liniowa (linear lub dense) jest najbardziej podstawową warstwą. Każdy 
+Warstwa liniowa (linear lub dense)
+
+ jest najbardziej podstawową warstwą. Każdy 
 element wyjściowy ($m$ wartości) jest kombinacją wszystkich wejść ($n$ wartości)
 danej warstwy (powiększoną o stałą). Zatem taka warstwa jest parametryzowana
 macierzą rozmiaru $n \cdot m$ oraz wektorem rozmiaru $m$.
@@ -66,14 +73,14 @@ macierzą rozmiaru $n \cdot m$ oraz wektorem rozmiaru $m$.
 Dwie takie sąsiednie warstwy liniowe można by zredukować do jednej, ponieważ
 $W_2 \cdot (W_1 \cdot x + b_1) +b_2 = W \cdot x + b$, gdy $W=W_2 \cdot W_1$ oraz
 $b = W_2 \cdot b_1 +b_2$. Zatem dowolnie głęboką sieć złożoną z takich warstw
-możnaby zredukować do 1 takiej warstwy, ale po każdej funkcji liniowej aplikuje
-się funkcję nieliniową np. tanh lub relu ($\max(0,x)$). Dzięki temu sieci neuronowe
+możnaby zredukować do jednej takiej warstwy, ale po każdej funkcji liniowej aplikuje
+się funkcję nieliniową np. $tanh$ lub $relu$ ($\max(0,x)$). Dzięki temu sieci neuronowe
 są w stanie pokryć znacznie większą przestrzeń funkcji niż tylko liniowe.
 
 Inną warstwą, już specjalizowaną w przetwarzaniu danych położonych na pewnej kracie,
 jest warstwa konwolucyjna. Przykładowym wejściem dla takiej warstwy może być
 dwuwymiarowa siatka pikseli. Natomiast wyjściem jest obraz o zbliżonej (lub tej samej)
-rozdzielczości, którego wartość jest kombinancją liniową spójnego bloku piksli z 
+rozdzielczości, którego wartość jest kombinancją liniową spójnego bloku pikseli z 
 wejścia. Ważną cechą takiej warstwy jest fakt, że wszystkie wyjścia korzystają
 z tych samych parametrów, co powoduje że znajdują te same wzorce położone w 
 innych miejscach.
@@ -81,10 +88,10 @@ innych miejscach.
 Kolejnym typem warstw specjalizowanym w przetwarzaniu obrazów jest pooling.
 Dzieli ona wejście na spójne rozłączne bloki, na każdym z nich osobno aplikuje
 funkcję np. $max$ lub $avg$. Taka operacja powoduje niewrażliwość na małe 
-przemieszczenia wejść. Dodatkowo zmniejsza to rozmiar wejścia w kolejnych warstwach
+przemieszczenia wejść. Dodatkowo zmniejsza to rozmiar wejścia w kolejnych warstwach,
 co zmniejsza liczbę parametrów.
 \subsection{Uwagi}
-Konwolucyjne sieci neuronowe bardzo dobrze radzą soie z widzeniem maszynowym, są w stanie
+Konwolucyjne sieci neuronowe bardzo dobrze radzą sobie z widzeniem maszynowym, są w stanie
 klasyfikować bezproblemowo obrazki\footnote{\href
 {https://www.cs.toronto.edu/\~kriz/imagenet\_classification\_with\_deep\_convolutional.pdf}
 {https://www.cs.toronto.edu/\~kriz/imagenet\_classification\_with\_deep\_convolutional.pdf}}.
@@ -95,41 +102,38 @@ jest ukryte założenie, że dla każdego obrazu z kamery jest tylko jedna popra
 odpowiedź.
 
 
-\section{ROS}
-ROS to rozbudowany framework przeznaczony do programowania robotów.
+\section{Architektura ROS}
+ROS (Robot Operating System) to rozbudowany framework przeznaczony do programowania robotów.
 Składa się na niego wiele bibliotek oraz narzędzi mających na celu zbudowanie
 klastra komputerów tworzących spójny system.
 Dostarcza on abstrakcję nad sprzętem, środki komunikacji między procesami oraz
-oraz inne funkcjonalności dostarczane przez typowy system operacyjny.
+oraz inne funkcjonalności gwarantowane przez typowy system operacyjny.
 Ze względu na modułową budowę oraz architekturę peer-to-peer procesy mogą
 bezproblemowo działać na różnych komputerach.
 \subsection{Node}
-Podstawową jednostką w ROSie jest wierzchołek(node), jego głównym zdaniem jest
-wykonywanie obliczeń. Wierzchołki razem tworzą graf, a komunikują się za 
-pomocą tematów(topic).
+Podstawową jednostką w ROS-ie jest wierzchołek (node), jego głównym zdaniem jest
+wykonywanie obliczeń. Wierzchołki razem tworzą graf i komunikują się za 
+pomocą tematów (topic).
 
-Taka architektura (inspirowana budową mikrojądra) zapewnia lepsza ochronę na błędy
-w porównaniu do architektury monolitycznej. Dodatkowo pojedyńczy element można
-bezproblemowo przepisać, i to w innym języku.
+Taka architektura (inspirowana budową mikrojądra) w porównaniu do architektury monolitycznej, zapewnia lepszą ochronę przed błędami. Dodatkowo pojedyńczy element można
+bezproblemowo przepisać także w innym języku programowania.
 \subsection{Topic}
-Tematy(topic) pozwalają bezproblemowo zapewnić komunikację międzyprocesową
-w ROSie. Każdy node może zadelkarować chęć nadawania bądź nasłuchiwania na
-danym temacie. Przykładowo moduł jazdy autonomicznej może zasubskrybować
-obraz z kamery Kinect, a publikować na temacie reprezentującym kierunek ruchu.
+Tematy (topic) pozwalają bezproblemowo zapewnić komunikację międzyprocesową
+w ROS-ie. Każdy node może zadeklarować chęć nadawania bądź nasłuchiwania na
+danym temacie. Przykładowo, moduł jazdy autonomicznej może zasubskrybować
+obraz z kamery Kinect i publikować na temacie reprezentującym kierunek ruchu.
 Tematy są otypowane, co gwarantuje że wszystkie wiadomości wysłane na tym
 samym temacie mają taką samą strukturę.
 \subsection{Gotowe moduły}
 ROS dostarcza wiele gotowych modułów pozwalających szybko rozpocząć projekt.
 Jednym z nich jest Odom, który zbiera informacje o położeniu i prędkości 
-z wielu źródeł danych i łączy je w jedno (o większej pewności). Przykładowo 
-dane może zbierać z czujnika gps, prędkości obrotowej kół oraz akcelerometru.
+z wielu źródeł danych i łączy je w nowy strumień danych (o większej pewności). Przykładowo, 
+dane może zbierać z czujnika GPS, prędkości obrotowej kół oraz akcelerometru.
 
 Inny moduł potrafi tworzyć mapy na podstawie obrazu z kamery oraz mapy głębokości.
-Wynik tej rekonstrukcji można obejrzeć z pomocą innych usług służących do 
-wizualizacji różnych typów danych takich jak obraz, wartości zmieniające się
-w czasie, chmury punktów lub mapa terenu.
-%chyba nie aż tak ważne 
-%tf,kamery,konwersje obrazków/strumieni
+Wynik tej rekonstrukcji można obejrzeć za pomocą innych usług służących do 
+wizualizacji różnych typów danych takich jak obraz, wartości zmieniających się
+w czasie, chmury punktów lub mapy terenu.
 
 % \section{Autonomia Aleph 1}
 %Co zostało zrobione na przedmiocie:
