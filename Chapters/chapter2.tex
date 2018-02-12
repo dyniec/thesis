@@ -1,4 +1,4 @@
-\chapter{Sieć pod symulator}
+\chapter{Trenowanie sieci i zbieranie danych}
 W celu autonomicznej jazdy wytrenowałem konwolucyjną sieć neuronową (CNN)
 przetwarzającą obraz z kamery bezpośrednio w porządaną prędkość liniową
 oraz obrotową. Takie podejście pozwala szybko zbierać dane uczące, wystarczy
@@ -17,26 +17,41 @@ tylko nagrać obraz z kamery oraz prędkość nadaną przez kierowcę.
   \label{model}
   \caption{Architektura sieci}
 \end{figure}
+
 Wersja sterująca w symulatorze powstała, żeby odrzucić modele, które nie radzą
 sobie w tak prostych warunkach. Dodatkowo zbieranie danych oraz testowanie
 modelu jest łatwiejsze, ponieważ nie wymaga przygotowywania sprzętu, oraz
 opuszczenie toru przez model jest nieszkodliwe w porównaniu do opuszczenia
 drogi przez fizycznego łazika.
 
-\section{Dlaczego taka (a nie mniejsza)}
-W sieci pięciokrotnie pojawia się sekwencja warstwa konwolucyjna -> dropout 
-całych warstw ->max pooling.
-Celem poolingu jest zmniejszenie liczby parametrów oraz zapobieganie 
-przetrenowaniu. Max pooling dzieli obraz na bloki ustalonego rozmiaru i 
-dla każdego z nich wyznacza maksimum, w ten sposób rozmiar 'feature maps' 
-wielokrotnie się zmniejsza.
+Architektura sieci pochodzi z rozwiązania chauffeur w konkursie udacity self driving car\footnote
+{ Repozytorium dostępne pod\href{https://github.com/udacity/self-driving-car/tree/master/steering-models/community-models}
+{https://github.com/udacity/self-driving-car/tree/master/steering-models/community-models}},
+ale została zaadaptowana do interfejsu symulatora oraz łazika (oprócz obrotu
+potrafi też zadać prędkość). Konwersja z rosbaga (format nagrań ROSa) do 
+naszego formatu oraz sam symulator zostały wykonane przez innych członków projektu.
 
-Dlaczego tylko 1 dense
 
-\section{Dane}
-Jak długie przejazdy, i ile ich: 2 po 20 minut
+\section{Trening na symulatorze}
+Nagrania do nauki na symulatorze zostały wykonane przeze mnie i dwóch innych
+uczestników projektu. Łączna długość nagrań wynosi około 50 minut, z czego 5
+minut zostało przeznaczone na zbiór walidacyjny, a reszta była zbiorem uczącym.
 
-Co gdyby zmniejszyć rozdzielczość ewaluowanych obrazkow do 16x8: jest ok
+Obrazy pochodzą z 3 kamer, jedna skierowana na wprost, a pozostałe były obrócone
+o 20 stopni względem środkowej. Podczas uczenia wykorzystywany był obraz ze wszystkich
+trzech kamer. Dla kamery środkowej porządanym wynikiem były nagrane dane z sterowania,
+natomiast dla kamery lewej wynik był nieznacznie zaburzony w prawo, i analogicznie 
+dla trzeciej kamery.
+Dodatkowo obraz z kamery środkowej był dodany w postaci symetrycznego odbicia
+ze zmienionym kierunkiem skrętu.
 
-Jak wzbogacane: obrazy z 3 kamer + flip na środkowej
+\section{Trening z nagrań łazika}
+Do treningu zostało wykorzystane około 150GB nagrań z łazika, zawierających
+obraz z kamery oraz informacje o sterowaniu, jest to kilkanaście objazdów
+po podziemnym garażu. Na większości ujęć widać kratkę zazwyczaj zgodną z kierunkiem
+jazdy, ale zakręcjącą pod kątem prostym. Około 6GB danych zostało wykorzystanych jako
+zbiór walidacyjny.
+
+Nagrania pochodzą z jednej fizycznej kamery. Dla każdego ujęcia zostało
+dodane jego odbicie lustrzane z przeciwnym kątem skrętu.
 

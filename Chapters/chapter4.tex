@@ -1,9 +1,18 @@
 \chapter{Co dalej}
-RNN - sam wyciągnie kontekst
+Najprostszym następnym krokiem jest zwiększenie danych o dodatkowy wymiar, i nauczenie takiej
+sieci decyzji na podstawie $k$ (niekoniecznie) ostatnich zdjęć. Innym prostym rozwiązaniem,
+które można z tym połączyć jest zmiana perspektywy kamery na zdjęcie z góry.
 
-Na wersji sim-only - funkcja kosztu w zależności od odległości od trasy, może nagradzać szybkie przejazdy bo inaczej będzie stać w miejscu
-Da się podciągnąć dla prawdziwej ale trzeba by jakoś użyć odo.
+Bardziej ambitnym pomysłem jest wytrenowanie rekurencyjnej sieci neuronowej (RNN),
+gdyby ją dobrze nauczyć sama wyciągnie kontekst. Ale problemem przy jej trenowaniu
+będzie fakt, że prostą strategią dla takiej sieci jest powtarzanie ostatniego wypisanego
+wyniku, a to dlatego że prędkość jest ciągła.
 
-Reinforced learning - kara za każdą interwencję (może nie 0-1 tylko proporcjonalna od
-róznicy outputów)
+Kolejnym rozwiązaniem jest reinforced learning, sieć karało by się za
+każdą interwencję lub wyjechanie poza trasę. Niestety problemem tutaj jest 
+fakt, że jak błąd prawdziwego pojazdu może być kosztowny lub niebezpieczny.
+
+Oczywiście pozostają też rozwiązania nie używające sieci neuronowych, można
+przykładowo stworzyć program pilnujący aby łazik nie wjechał w przeszkodę.
+
 
