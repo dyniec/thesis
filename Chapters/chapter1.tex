@@ -131,6 +131,20 @@ Inny moduł potrafi tworzyć mapy na podstawie obrazu z kamery oraz mapy głębo
 Wynik tej rekonstrukcji można obejrzeć za pomocą innych usług służących do 
 wizualizacji różnych typów danych takich jak obraz, wartości zmieniających się
 w czasie, chmury punktów lub mapy terenu.
+\section{Stan badań}
+Już w latach 80. pojawiły się podejścia do problemu jazdy autonomicznej. 
+ALVINN to 3-warstwowa gęsta sieć neuronowa\cite{alvinn}, której wejściem były: obraz z kamery oraz
+informacje z laserowaego czujnika odległości, a wyjściem taki kierunek skrętu, aby pojazd
+utrzymał się na drodze. Wytrenowanie takiej sieci na tylko prawdziwych danych 
+było trudne, ze względu na potrzebną różnorodność danych. Z tego powodu dane treningowe
+do tego pojazdu były generowane na symulatorze. W rezultacie pojazd potrafi przejachać 400 metrów przy dobrym oświetleniu z prędkością metra na sekundę.
+
+Rozwiązanie NVIDIi DAVE-2 z roku 2016 jest dużo bardziej efektywne od starego ALVINN-a\cite{nvidia}. Liczba parametrów
+oraz wielkość sieci jest wielokrotnie większa od ALVINN-a. DAVE-2 jest konwolucyjną siecią neuronową
+uruchamianą na sprzęcie NVIDIA Drive PX, którego głównym przeznaczeniem jest jazda autonomiczna. Zebrane dane uczące to 72 godziny jazdy po drogach w różnych warunkach.
+Proces uczenia łączy odtwarzanie nagrań z symulowaniem. W zależności od pozycji
+pojazdu w symulacji obraz z nagrania jest przekształcany w taki sposób, aby przypomiał widok z pozycji
+w której znalazłby się model po wykonaniu instrukcji od DAVE-2.
 
 % \section{Autonomia Aleph 1}
 %Co zostało zrobione na przedmiocie:
